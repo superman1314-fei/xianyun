@@ -54,7 +54,6 @@ export default {
                     url:'/accounts/login',
                     data:this.form
                 }).then(res=>{
-                  console.log(res);
                   
                     const {data} =res
                     this.$router.push('/')
