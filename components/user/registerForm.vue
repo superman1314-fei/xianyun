@@ -105,7 +105,7 @@ export default {
       });
     },
     // 注册
-    handleRegSubmit() {
+    handleRegSubmit() {  
       this.$refs.form.validate(valid => {
         if (valid) {
           const { checkPassword, ...data } = this.form;
