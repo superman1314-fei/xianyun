@@ -19,6 +19,7 @@ export const mutations = {
 };
 
 export const actions={
+  //登录
   login(store,data){
     return this.$axios({
       method:'POST',
@@ -30,6 +31,14 @@ export const actions={
       
       store.commit('setUserlnfo',data)
       
+  })
+  },
+  //手机号验证码api
+  sendCaptcha(store,data){
+   return this.$axios({
+      url:'/captchas',
+      method:'POST',
+      data:{tel:data}
   })
   }
 }
