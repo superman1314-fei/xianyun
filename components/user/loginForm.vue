@@ -47,14 +47,14 @@ export default {
   methods: {
     // 提交登录
     handleLoginSubmit() {
-        this.$refs.form.validate(valid=>{
-            if(valid){
-                this.$store.dispatch('user/login',this.form).then(
-               this.$router.push('/'))
-               this.$message.success('登录成功')
-            }
-        })
-
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.$store.dispatch("user/login", this.form).then(() => {
+            this.$router.push("/");
+            this.$message.success("登录成功");
+          });
+        }
+      });
     }
   }
 };

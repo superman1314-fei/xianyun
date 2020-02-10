@@ -5,40 +5,51 @@
 // });
 // 第二种写法
 // return可以返回对个
-export const state =()=>{
-    return{
-        userlnfo:{ user:''}
-    } 
+export const state = () => {
+  return {
+    userlnfo: { user: "" }
+  };
 };
 // 给state赋值
 export const mutations = {
   setUserlnfo(state, data) {
     state.userlnfo = data;
-  },
- 
+  }
 };
 
-export const actions={
+export const actions = {
   //登录
-  login(store,data){
+  login(store, data) {
     return this.$axios({
-      method:'POST',
-      url:'/accounts/login',
+      method: "POST",
+      url: "/accounts/login",
       data
-   }).then(res=>{
-      const {data} =res
+    }).then(res => {
+      const { data } = res;
+      console.log(res);
+
+      store.commit("setUserlnfo", data);
+    });
+  },
+  //手机号验证码api
+  sendCaptcha(store, data) {
+    return this.$axios({
+      url: "/captchas",
+      method: "POST",
+      data: { tel: data }
+    });
+  },
+  //注册功能
+  register(store, data) {
+    return this.$axios({
+      url: "/accounts/register",
+      method: "POST",
+      data
+    }).then(res=>{
+      const {data}=res
       console.log(res);
       
       store.commit('setUserlnfo',data)
-      
-  })
-  },
-  //手机号验证码api
-  sendCaptcha(store,data){
-   return this.$axios({
-      url:'/captchas',
-      method:'POST',
-      data:{tel:data}
-  })
+    })
   }
-}
+};

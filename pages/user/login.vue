@@ -35,7 +35,7 @@ export default {
     data(){
         return {
           //当前高亮的按钮
-            currentTab: 1
+            currentTab: 0
         }
     },
     components:{

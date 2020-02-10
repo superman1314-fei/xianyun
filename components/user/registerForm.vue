@@ -93,7 +93,7 @@ export default {
       if (this.form.username == "") {
         return;
       } else if (
-        !/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(
+        !(/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/).test(
           this.form.username
         )
       ) {
@@ -106,7 +106,15 @@ export default {
     },
     // 注册
     handleRegSubmit() {
-      console.log(this.form);
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          const { checkPassword, ...data } = this.form;
+          this.$store.dispatch("user/register", data).then(res => {
+              this.$router.push({path:'/'})
+            this.$message.success("注册成功");
+          });
+        }
+      });
     }
   }
 };
