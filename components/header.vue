@@ -49,7 +49,7 @@ export default {};
   min-width: 1000px;
   position: relative;
   z-index: 2;
-  // font-size: 30px;
+  
 }
 .header {
   width: 1000px;

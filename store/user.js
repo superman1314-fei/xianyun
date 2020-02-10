@@ -7,7 +7,7 @@
 // return可以返回对个
 export const state =()=>{
     return{
-        userlnfo:{}
+        userlnfo:{ user:''}
     } 
 };
 // 给state赋值
@@ -16,3 +16,20 @@ export const mutations = {
     state.userlnfo = data;
   }
 };
+
+export const actions={
+  login(store,data){
+    return this.$axios({
+      method:'POST',
+      url:'/accounts/login',
+      data
+   }).then(res=>{
+      const {data} =res
+      console.log(res);
+      
+      // this.$router.push('/')
+      store.commit('setUserlnfo',data)
+      
+  })
+  }
+}

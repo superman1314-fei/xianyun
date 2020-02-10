@@ -49,18 +49,7 @@ export default {
     handleLoginSubmit() {
         this.$refs.form.validate(valid=>{
             if(valid){
-                this.$axios({
-                    method:'POST',
-                    url:'/accounts/login',
-                    data:this.form
-                }).then(res=>{
-                  
-                    const {data} =res
-                    this.$router.push('/')
-                    this.$store.commit('user/setUserlnfo',data)
-                    console.log(this.$store.state);
-                    
-                })
+                this.$store.dispatch('user/login',this.form)
             }
         })
 

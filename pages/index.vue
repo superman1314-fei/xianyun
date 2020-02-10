@@ -67,12 +67,18 @@ export default {
   },
   mounted() {
     //调用api方法拿到图片
+    // console.log(111);
+    
     this.$axios({
       url: "/scenics/banners"
     }).then(res => {
+      console.log(res);
+      
       const data = res.data.data;
       this.banners = data;
     });
+    
+    
   },
   methods: {
     //点击切换样式和机票跳转
