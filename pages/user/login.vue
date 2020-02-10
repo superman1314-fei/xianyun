@@ -22,23 +22,25 @@
                 <LoginForm v-if="currentTab == 0"/>
 
                 <!-- 注册功能组件 -->
-                <!-- <RegisterForm v-if="currentTab == 1"/> -->
+                <RegisterForm v-if="currentTab == 1"/>
             </div>
         </el-row>
     </div>
 </template>
 
 <script>
-import LoginForm from '@/components/user/loginForm'
+import RegisterForm from '../../components/user/registerForm' //注册
+import LoginForm from '@/components/user/loginForm' //登录
 export default {
     data(){
         return {
           //当前高亮的按钮
-            currentTab: 0
+            currentTab: 1
         }
     },
     components:{
-          LoginForm 
+          LoginForm ,
+          RegisterForm
     },
     methods: {
         handleChangeTab(index){
