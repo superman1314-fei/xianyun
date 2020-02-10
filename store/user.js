@@ -14,7 +14,8 @@ export const state =()=>{
 export const mutations = {
   setUserlnfo(state, data) {
     state.userlnfo = data;
-  }
+  },
+ 
 };
 
 export const actions={
@@ -27,7 +28,6 @@ export const actions={
       const {data} =res
       console.log(res);
       
-      // this.$router.push('/')
       store.commit('setUserlnfo',data)
       
   })

@@ -26,7 +26,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item ><div @click='handleLogout'>退出</div></el-dropdown-item>
           
       
           </el-dropdown-menu>
@@ -37,7 +37,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods:{
+    handleLogout(){
+          this.$store.commit('user/setUserlnfo',{token:'',user:{}})
+          this.$message.success('退出成功')
+          
+    }
+  }
+};
 </script>
 
 <style lang='less' scoped>

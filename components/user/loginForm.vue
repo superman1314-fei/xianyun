@@ -49,7 +49,9 @@ export default {
     handleLoginSubmit() {
         this.$refs.form.validate(valid=>{
             if(valid){
-                this.$store.dispatch('user/login',this.form)
+                this.$store.dispatch('user/login',this.form).then(
+               this.$router.push('/'))
+               this.$message.success('登录成功')
             }
         })
 
