@@ -26,7 +26,7 @@ export const actions = {
       data
     }).then(res => {
       const { data } = res;
-      console.log(res);
+      // console.log(res);
 
       store.commit("setUserlnfo", data);
     });
@@ -45,11 +45,29 @@ export const actions = {
       url: "/accounts/register",
       method: "POST",
       data
-    }).then(res=>{
-      const {data}=res
-      console.log(res);
-      
-      store.commit('setUserlnfo',data)
-    })
+    }).then(res => {
+      const { data } = res;
+      // console.log(res);
+
+      store.commit("setUserlnfo", data);
+    });
+  },
+  //飞机搜索
+  planeticket(store, data) {
+    return this.$axios({
+      url: "/airs/city",
+      params: { name: data }
+    }).then(res => {
+      const { data } = res.data;
+      const newData = data.map(v => {
+        v.value = v.name.replace("市", "");
+        return v;
+       
+      });
+     
+      return newData
+     
+    
+    });
   }
 };

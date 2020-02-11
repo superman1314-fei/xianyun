@@ -69,7 +69,7 @@ export default {
     return {
       // 表单数据
       form: {
-        username: "13826707429", //手机号
+        username: "", //手机号
         nickname: "", //昵称
         captcha: "", //手机号验证码
         password: "", //密码

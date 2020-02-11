@@ -30,8 +30,8 @@ export default {
     return {
       // 表单数据
       form: {
-        username: "13800138000", //手机
-        password: "123456" //密码
+        username: "", //手机
+        password: "" //密码
       },
       // 表单规则
       rules: {
