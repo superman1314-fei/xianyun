@@ -62,12 +62,9 @@ export const actions = {
       const newData = data.map(v => {
         v.value = v.name.replace("市", "");
         return v;
-       
       });
-     
-      return newData
-     
-    
+
+      return newData;
     });
   }
 };

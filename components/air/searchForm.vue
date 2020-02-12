@@ -92,6 +92,10 @@ export default {
     // value 是选中的值，cb是回调函数，接收要展示的列表
     queryDepartSearch(value, cb) {
       if (!value) {
+        // 如果value是空 就把原来的城市列表清空
+        this.departData = [];
+        // 调用cb传入空数组，这样下拉就不会出来了
+        cb([]);
         return;
       }
 
@@ -103,11 +107,8 @@ export default {
       //   console.log(value);
     },
     //出发城市失焦默认第一个
+    
     handleDepartBlur() {
-        if(this.from.departCity===""){
-            this.departData=[]
-                return 
-        }
       if (this.departData.length === 0) {
         return;
       }
@@ -118,6 +119,10 @@ export default {
     // value 是选中的值，cb是回调函数，接收要展示的列表
     queryDestSearch(value, cb) {
       if (!value) {
+        // 如果value是空 就把原来的城市列表清空
+        this.destData = [];
+        // 调用cb传入空数组，这样下拉就不会出来了
+        cb([]);
         return;
       }
       this.$store.dispatch("user/planeticket", value).then(newData => {
@@ -134,10 +139,6 @@ export default {
     },
     //到达城市如果没有值失焦默认第一个
     handleDestBlur() {
-          if(this.from.destCity===""){
-            this.destData=[]
-                return 
-        }
       if (this.destData.length === 0) {
         return;
       }
