@@ -44,6 +44,7 @@
           style="width: 100%;"
           @change="handleDate"
           v-model="from.departdate"
+           :picker-options="pickerOptions"
         ></el-date-picker>
       </el-form-item>
       <el-form-item label>
@@ -61,6 +62,7 @@ import moment from "moment"; //时间格式
 export default {
   data() {
     return {
+      
       from: {
         departCity: "", //出发城市
         departCode: "", //出发城市的英文缩写
@@ -74,7 +76,12 @@ export default {
       ],
       currentTab: 0,
       departData: [],
-      destData: []
+      destData: [],
+          pickerOptions: {
+          disabledDate(time) {
+            return time.getTime()+3600 * 1000 * 24 < Date.now();
+          },
+          }
     };
   },
   methods: {
