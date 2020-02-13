@@ -4,8 +4,8 @@
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
         <!-- 过滤条件 -->
-        <div></div>
 
+        <FlightsFilters :data='cacheFlightsData' @getData="getData"/>
         <!-- 航班头部布局 -->
 
         <FlightsListHead />
@@ -44,20 +44,31 @@
 import moment from "moment";
 import FlightsListHead from "../../components/air/flightsListHead"; //头部
 import FlightsItem from "../../components/air/flightsItem"; //列表
+import FlightsFilters from "../../components/air/flightsFilters"; //过滤
 export default {
   data() {
     return {
       //航班信息 （info,flights,options,total）
-      flightsData: {},
-
-      pageIndex: 2, //当前的页数
+      flightsData: {
+        info:{},
+        options:{},
+        flights:[]
+      },
+      //备份
+      cacheFlightsData:{
+            info:{},
+            options:{},
+            flights:[]
+      },
+      pageIndex: 1, //当前的页数
       pageSize: 5, //当前的页码
       total: 0 //页数
     };
   },
   components: {
     FlightsListHead,
-    FlightsItem
+    FlightsItem,
+    FlightsFilters
   },
   mounted() {
     this.$axios({
@@ -68,6 +79,7 @@ export default {
       this.flightsData = res.data;
       //   this.total = res.data.total;
       this.total = this.flightsData.total;
+      this.cacheFlightsData={...res.data}
     });
   },
   computed: {
@@ -80,9 +92,7 @@ export default {
         this.pageIndex * this.pageSize
       );
       return arr;
-
     }
-    
   },
   methods: {
     //每页有多少条
@@ -92,6 +102,10 @@ export default {
     //当前是哪一页
     handleCurrentChange(index) {
       this.pageIndex = index;
+    },
+    getData(arr){
+       this.flightsData.flights =arr
+       this.total=arr.length
     }
   }
 };
