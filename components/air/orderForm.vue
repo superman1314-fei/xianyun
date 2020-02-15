@@ -194,7 +194,18 @@ export default {
       });
       if (!valid) return;
       //调用提交接口
-
+    this.$axios({
+        url:'/airorders',
+        method:"POST",
+        data:this.form,
+        headers:{
+            // 这个需要加上`Bearer`字符串里面要一个空格
+            Authorization: `Bearer `+this.$store.state.user.userlnfo.token
+        }
+    }).then(res=>{
+        console.log(res);
+        
+    })
       console.log(this.form);
     }
   }
