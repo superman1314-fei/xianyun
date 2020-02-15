@@ -31,7 +31,9 @@
       <h2>保险</h2>
       <div v-for="(item,index) in infoData" :key="index">
         <div class="insurance-item">
-          <el-checkbox :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`" border
+          <el-checkbox
+            :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`"
+            border
             @change="handelInsurance(item.id)"
           ></el-checkbox>
         </div>
@@ -43,11 +45,11 @@
       <div class="contact">
         <el-form label-width="60px">
           <el-form-item label="姓名">
-            <el-input></el-input>
+            <el-input v-model="form.contactName"></el-input>
           </el-form-item>
 
           <el-form-item label="手机">
-            <el-input placeholder="请输入内容">
+            <el-input placeholder="请输入内容" v-model="form.contactPhone">
               <template slot="append">
                 <el-button @click="handleSendCaptcha">发送验证码</el-button>
               </template>
@@ -55,7 +57,7 @@
           </el-form-item>
 
           <el-form-item label="验证码">
-            <el-input></el-input>
+            <el-input v-model="form.captcha"></el-input>
           </el-form-item>
         </el-form>
         <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
@@ -84,57 +86,116 @@ export default {
         seat_xid: this.$route.query.seat_xid, //座位id
         air: this.$route.query.id //航班id
       },
-    //   机票的详细信息
-      infoData:{}
+      //   机票的详细信息
+      infoData: {}
     };
   },
-  mounted(){
-      const {id,seat_xid}=this.$route.query
-      this.$axios({
-          url:'/airs/'+id,
-          params:id
-      }).then(res=>{
-          console.log(res);
-          this.infoData=res.data.insurances
-      })
+  mounted() {
+    const { id, seat_xid } = this.$route.query;
+    this.$axios({
+      url: "/airs/" + id,
+      params: id
+    }).then(res => {
+      console.log(res);
+      this.infoData = res.data.insurances;
+    });
   },
   methods: {
     // 添加乘机人
     handleAddUsers() {
-        this.form.users.push(
-            {
-                username:'',
-                id:''
-            }
-        )
+      this.form.users.push({
+        username: "",
+        id: ""
+      });
     },
     //保险数据
-    handelInsurance(id){
-        //判断是否有id
-        const index =this.form.insurances.indexOf(id)
-        //如果有id 就是取消状态
-        if(index> -1){
-            this.form.insurances.splice(index,1)
-        }else{
-             //没有就是新增的
-            this.form.insurances.push(id)
-        }
-       
-      
-           
+    handelInsurance(id) {
+      //判断是否有id
+      const index = this.form.insurances.indexOf(id);
+      //如果有id 就是取消状态
+      if (index > -1) {
+        this.form.insurances.splice(index, 1);
+      } else {
+        //没有就是新增的
+        this.form.insurances.push(id);
+      }
     },
     // 移除乘机人
     handleDeleteUser(index) {
-        this.form.users.splice(index,1)
+      this.form.users.splice(index, 1);
     },
 
     // 发送手机验证码
-    handleSendCaptcha() {},
+    handleSendCaptcha() {
+      if (!this.form.contactPhone) {
+        this.$message.error("手机号不能为空");
+        return;
+      }
+      this.$store
+        .dispatch("user/sendCaptcha", this.form.contactPhone)
+        .then(res => {
+          this.$message.success("验证码发送成功：000000");
+        });
+    },
 
     // 提交订单
     handleSubmit() {
-        console.log(this.form);
-        
+      const rules = {
+        //校验用户
+        users: {
+          errMessage: "乘机人信息不能为空",
+          //校验函数如果是ture 验证通过，是flase就失败
+
+          validator: () => {
+            let valid = true;
+            this.form.users.forEach(v => {
+              if (!v.username || !v.id) {
+                valid = false;
+              }
+            });
+            return valid;
+          }
+        },
+        //校验联系人
+        contactName: {
+          errMessage: "联系人不能为空",
+          validator: () => {
+            //转化布尔值
+            return !!this.form.contactName;
+            //  return Boolean(this.form.contactName)
+          }
+        },
+        //校验手机号
+        contactPhone: {
+          errMessage: "手机号不能为空",
+          validator: () => {
+            //转化布尔值
+            return !!this.form.contactPhone;
+          }
+        },
+        // 校验验证码
+        captcha: {
+          errMessage: "验证码不能为空",
+          validator: () => {
+            //转化布尔值
+            return !!this.form.captcha;
+          }
+        }
+      };
+      //循环rules对象调用validator  Object.keys()会返回一个数组
+      let valid = true;
+      Object.keys(rules).forEach(v => {
+        if (!valid) return;
+        const item = rules[v];
+        valid = item.validator();
+        if (!valid) {
+          this.$message.error(item.errMessage);
+        }
+      });
+      if (!valid) return;
+      //调用提交接口
+
+      console.log(this.form);
     }
   }
 };
