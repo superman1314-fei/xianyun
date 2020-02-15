@@ -35,6 +35,7 @@
       <!-- 侧边栏 -->
       <div class="aside">
         <!-- 侧边栏组件 -->
+        <FlightsAside/>
       </div>
     </el-row>
   </section>
@@ -45,6 +46,8 @@ import moment from "moment";
 import FlightsListHead from "../../components/air/flightsListHead"; //头部
 import FlightsItem from "../../components/air/flightsItem"; //列表
 import FlightsFilters from "../../components/air/flightsFilters"; //过滤
+
+import FlightsAside from "../../components/air/flightsAside"; //过滤
 export default {
   data() {
     return {
@@ -68,7 +71,8 @@ export default {
   components: {
     FlightsListHead,
     FlightsItem,
-    FlightsFilters
+    FlightsFilters,
+    FlightsAside
   },
   mounted() {
     this.$axios({

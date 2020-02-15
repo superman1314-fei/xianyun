@@ -43,7 +43,7 @@
           placeholder="请选择日期"
           style="width: 100%;"
           @change="handleDate"
-          v-model="from.departdate"
+          v-model="from.departDate"
            :picker-options="pickerOptions"
         ></el-date-picker>
       </el-form-item>
@@ -68,7 +68,7 @@ export default {
         departCode: "", //出发城市的英文缩写
         destCity: "", //到达的城市
         destCode: "", //到达的城市英文缩写
-        departdate: "" //日期
+        departDate: "" //日期
       },
       tabs: [
         { icon: "iconfont icondancheng", name: "单程" },
@@ -160,7 +160,7 @@ export default {
 
     // 确认选择日期时触发
     handleDate(value) {
-      this.from.departdate = moment(value).format("YYYY-MM-DD");
+      this.from.departDate = moment(value).format("YYYY-MM-DD");
     },
 
     // 触发和目标城市切换时触发
@@ -183,10 +183,11 @@ export default {
         this.$message.error("请输入到达城市");
         return;
       }
-      if (!this.from.departdate) {
+      if (!this.from.departDate) {
         this.$message.error("请输入日期");
         return;
       }
+      this.$store.commit('air/setHistory',this.from)
       this.$router.push({
         path: "/air/flights",
         query: this.from

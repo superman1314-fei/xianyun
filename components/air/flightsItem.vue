@@ -46,7 +46,10 @@
             </el-col>
             <el-col :span="5" class="price">￥{{item.par_price}}</el-col>
             <el-col :span="3" class="choose-button">
-              <el-button type="warning" size="mini">选定</el-button>
+              <el-button type="warning"
+               size="mini"
+               @click="handleToOrder(item)"
+               >选定</el-button>
               <p>剩余：{{item.discount}}</p>
             </el-col>
           </el-row>
@@ -94,7 +97,20 @@ export default {
       // return
     }
   },
-
+  methods:{
+    handleToOrder(item){
+      this.$router.push({
+        path:'/air/order',
+        query:{
+          id:this.data.id,
+          seat_xid:item.seat_xid
+        }
+      })
+      // console.log(this.data);
+      // console.log(item);
+      
+    }
+  }
 };
 </script>
 
