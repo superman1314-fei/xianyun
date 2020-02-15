@@ -75,19 +75,19 @@ export default {
     FlightsFilters,
     FlightsAside
   },
-  //   beforeRouteUpdate(to, from, next) {
-  //       console.log(this.$route);
-        
-  //      this.pageIndex = 1; 
-  //    this.routeData()
-  //     next();
-  // },
-  watch:{
-    $route(){
-      this.pageIndex = 1; 
-       this.routeData()
-    }
+    beforeRouteUpdate(to, from, next) {
+        console.log(this.$route);
+         next();
+       this.pageIndex = 1; 
+     this.routeData()
+     
   },
+  // watch:{
+  //   $route(){
+  //     this.pageIndex = 1; 
+  //      this.routeData()
+  //   }
+  // },
   mounted() {
     this.routeData()
   },
