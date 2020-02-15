@@ -5,7 +5,7 @@
       <div class="flights-content">
         <!-- 过滤条件 -->
 
-        <FlightsFilters :data='cacheFlightsData' @getData="getData"/>
+        <FlightsFilters :data="cacheFlightsData" @getData="getData" />
         <!-- 航班头部布局 -->
 
         <FlightsListHead />
@@ -35,7 +35,7 @@
       <!-- 侧边栏 -->
       <div class="aside">
         <!-- 侧边栏组件 -->
-        <FlightsAside/>
+        <FlightsAside />
       </div>
     </el-row>
   </section>
@@ -53,38 +53,43 @@ export default {
     return {
       //航班信息 （info,flights,options,total）
       flightsData: {
-        info:{},
-        options:{},
-        flights:[]
+        info: {},
+        options: {},
+        flights: []
       },
       //备份
-      cacheFlightsData:{
-            info:{},
-            options:{},
-            flights:[]
+      cacheFlightsData: {
+        info: {},
+        options: {},
+        flights: []
       },
       pageIndex: 1, //当前的页数
       pageSize: 5, //当前的页码
       total: 0 //页数
     };
   },
+
   components: {
     FlightsListHead,
     FlightsItem,
     FlightsFilters,
     FlightsAside
   },
+  //   beforeRouteUpdate(to, from, next) {
+  //       console.log(this.$route);
+        
+  //      this.pageIndex = 1; 
+  //    this.routeData()
+  //     next();
+  // },
+  watch:{
+    $route(){
+      this.pageIndex = 1; 
+       this.routeData()
+    }
+  },
   mounted() {
-    this.$axios({
-      url: "/airs",
-      params: this.$route.query
-    }).then(res => {
-      console.log(res);
-      this.flightsData = res.data;
-      //   this.total = res.data.total;
-      this.total = this.flightsData.total;
-      this.cacheFlightsData={...res.data}
-    });
+    this.routeData()
   },
   computed: {
     dataList() {
@@ -99,6 +104,19 @@ export default {
     }
   },
   methods: {
+    //封装方法
+    routeData() {
+      this.$axios({
+        url: "/airs",
+        params: this.$route.query
+      }).then(res => {
+        console.log(res);
+        this.flightsData = res.data;
+        //   this.total = res.data.total;
+        this.total = this.flightsData.total;
+        this.cacheFlightsData = { ...res.data };
+      });
+    },
     //每页有多少条
     handleSizeChange(index) {
       this.pageSize = index;
@@ -107,9 +125,9 @@ export default {
     handleCurrentChange(index) {
       this.pageIndex = index;
     },
-    getData(arr){
-       this.flightsData.flights =arr
-       this.total=arr.length
+    getData(arr) {
+      this.flightsData.flights = arr;
+      this.total = arr.length;
     }
   }
 };
