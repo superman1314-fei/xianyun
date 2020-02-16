@@ -28,6 +28,7 @@ export default {
       }
     };
     return {
+      query:[],
       // 表单数据
       form: {
         username: "", //手机
@@ -50,12 +51,20 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           this.$store.dispatch("user/login", this.form).then(() => {
-            this.$router.push("/");
-            this.$message.success("登录成功");
+            // this.$router.push("/");
+            this.$router.replace(this.$route.query.returnUrl||"/")
+            // console.log(this.$router.history.query.returnUrl);
+            // console.log(this.$router.quert);
+           
           });
         }
       });
     }
+  },
+  mounted(){
+   
+    console.log()
+    
   }
 };
 </script>

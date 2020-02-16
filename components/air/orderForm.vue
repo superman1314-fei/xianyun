@@ -96,9 +96,12 @@ export default {
       url: "/airs/" + id,
       params: id
     }).then(res => {
-      console.log(res);
+    
+      
       this.infoData = res.data.insurances;
+        console.log(this.infoData);
     });
+
   },
   methods: {
     // 添加乘机人
