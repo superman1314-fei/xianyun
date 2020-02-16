@@ -10,7 +10,7 @@ export default (data)=>{
         }
         // 401是token错误或者是过期 403是接口没有token
         if(statusCode===401 ||statusCode===403){
-           
+            // redirect原生方法 有三个参数
             // 第一个参数是状态码
             //第二个参数是跳转路径
             // 第三个参数是把当前页面带参数传过去

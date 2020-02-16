@@ -29,7 +29,7 @@
 
     <div class="air-column">
       <h2>保险</h2>
-      <div v-for="(item,index) in infoData" :key="index">
+      <div v-for="(item,index) in infoData.insurances" :key="index">
         <div class="insurance-item">
           <el-checkbox
             :label="`${item.type}：￥${item.price}/份×1  最高赔付${item.compensation}`"
@@ -63,6 +63,7 @@
         <el-button type="warning" class="submit" @click="handleSubmit">提交订单</el-button>
       </div>
     </div>
+    <div>{{allPrice}}</div>
   </div>
 </template>
 
@@ -87,21 +88,50 @@ export default {
         air: this.$route.query.id //航班id
       },
       //   机票的详细信息
-      infoData: {}
+      infoData: {
+          
+      }
     };
   },
   mounted() {
-    const { id, seat_xid } = this.$route.query;
+    const { id,seat_xid } = this.$route.query;
     this.$axios({
       url: "/airs/" + id,
-      params: id
+      params: {seat_xid}
     }).then(res => {
     
       
-      this.infoData = res.data.insurances;
-        console.log(this.infoData);
+      this.infoData = res.data;
+      //把数据存放在store仓库
+      this.$store.commit("air/setOrderDetail",this.infoData)
+        // console.log(this.infoData);
     });
 
+  },
+  computed:{
+      allPrice(){
+        // 判断infoData是否有数据
+        if(!this.infoData.seat_infos){
+          return
+        }
+        let price =0
+        //单价
+        price+=this.infoData.seat_infos.org_settle_price
+        //燃油
+        price+=this.infoData.airport_tax_audlet
+        //保险
+        this.infoData.insurances.forEach(v=>{
+              if(this.form.insurances.indexOf(v.id)>-1){
+                price+=v.price
+              }
+        })
+        //人数
+        price *= this.form.users.length
+        this.$store.commit("air/setAllPrice",price)
+      
+        
+        return ""
+      }
   },
   methods: {
     // 添加乘机人
@@ -207,7 +237,7 @@ export default {
         }
     }).then(res=>{
         console.log(res);
-        
+        this.$message.success("订单提交成功")
     })
       console.log(this.form);
     }
