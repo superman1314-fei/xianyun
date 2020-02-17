@@ -22,7 +22,7 @@ export const mutations = {
   setOrderDetail(state, data) {
     state.orderDetail = data;
   },
-  // 机票订单左侧价格
+  // 机票订单右侧价格
   setAllPrice(state, data) {
     state.allPrice = data;
   }

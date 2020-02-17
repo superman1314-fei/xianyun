@@ -237,9 +237,18 @@ export default {
         }
     }).then(res=>{
         console.log(res);
-        this.$message.success("订单提交成功")
+        setTimeout(()=>{
+          this.$router.push({
+            path:'/air/pay',
+            query:{
+              id:res.data.data.id
+            }
+          })
+          this.$message.success("订单提交成功")
+        },2000)
+        
     })
-      console.log(this.form);
+     
     }
   }
 };
